@@ -11,7 +11,7 @@ const SuggestedAccounts = () => {
   }, [fetchAllUsers]);
 
   return (
-    <div className="hidden md:flex  w-[35%] md:flex-col md:gap-4 absolute top-[-100px] right-[-50px] p-5">
+    <div className="hidden md:flex  w-[35%] md:flex-col md:gap-4 absolute top-[-100px]   right-[-50px] p-5">
       <div className="flex justify-between">
         <Userprofile user={userProfile} />
         <button>

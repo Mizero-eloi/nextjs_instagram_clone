@@ -30,7 +30,7 @@ const Navbar = () => {
   return (
     <>
       {viewModal && <AddPost toggleModal={closeModal} title="Add post" />}
-      <div className="bg-white px-4 py-3">
+      <div className="bg-white px-4 py-3 sticky top-0 z-50">
         <div className="flex justify-between md:w-[70%] md:m-auto">
           {/* logo */}
           <Link href="/">
