@@ -1,11 +1,16 @@
+import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { createOrGetUser } from "../utils";
 import { navbarIcons } from "../utils/constants";
+import useAuthStore from "../store/authStore";
 
 import Logo from "../utils/logo.png";
 
 const Navbar = () => {
+  const { userProfile, addUser } = useAuthStore();
+  console.log({ userProfile });
   return (
     <div className="bg-white px-4 py-3">
       <div className="flex justify-between md:w-[70%] md:m-auto">
@@ -34,6 +39,25 @@ const Navbar = () => {
               </button>
             </Link>
           ))}
+
+          {userProfile ? (
+            <Link href="/">
+              <>
+                <Image
+                  width={40}
+                  height={40}
+                  className="rounded-full object-cover cursor-pointer"
+                  src={userProfile.image}
+                  alt="profile picture"
+                />
+              </>
+            </Link>
+          ) : (
+            <GoogleLogin
+              onSuccess={(response) => createOrGetUser(response, addUser)}
+              onError={() => console.log("Error")}
+            />
+          )}
         </div>
       </div>
     </div>

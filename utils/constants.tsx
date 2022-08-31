@@ -23,8 +23,8 @@ export const navbarIcons = [
     name: "Explore",
     icon: <BiHeart />,
   },
-  {
-    name: "login",
-    icon: <AiOutlineLogin />,
-  },
+  // {
+  //   name: "login",
+  //   icon: <AiOutlineLogin />,
+  // },
 ];
