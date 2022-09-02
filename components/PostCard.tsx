@@ -40,7 +40,7 @@ const PostCard = ({ postDetails }: IProps) => {
 
   console.log(post.postedBy.image);
   return (
-    <div className="border-2 border-gray-200 rounded-lg pt-2 w-[95%] md:w-[60%] md:ml-20 m-auto text-gray-600   bg-white">
+    <div className="border-2 border-gray-300 rounded-lg pt-2 w-[95%] md:w-[60%] md:ml-20 m-auto text-gray-600   bg-white">
       <div className="flex justify-between items-center bg-white pb-3 pl-3">
         <div className="flex gap-4">
           <Link

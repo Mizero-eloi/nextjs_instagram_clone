@@ -9,6 +9,7 @@ import { FiHome } from "react-icons/fi";
 import { RiMessengerLine } from "react-icons/ri";
 import { CgAddR } from "react-icons/cg";
 import { BiHeart } from "react-icons/bi";
+import { MdOutlineExplore } from "react-icons/md";
 
 import Logo from "../utils/logo.png";
 import AddPost from "./AddPost";
@@ -30,7 +31,7 @@ const Navbar = () => {
   return (
     <>
       {viewModal && <AddPost toggleModal={closeModal} title="Add post" />}
-      <div className="bg-white px-4 py-3 sticky top-0 z-50">
+      <div className="bg-white px-4 py-3 sticky top-0 z-50 border-b border-gray-300">
         <div className="flex justify-between md:w-[70%] md:m-auto">
           {/* logo */}
           <Link href="/">
@@ -67,6 +68,12 @@ const Navbar = () => {
             >
               <CgAddR />
             </button>
+
+            <Link href={`/explore`}>
+              <button className="text-2xl hover:text-gray-600 flex justify-center items-center">
+                <MdOutlineExplore />
+              </button>
+            </Link>
 
             <Link href={`/notifications`}>
               <button className="text-2xl hover:text-gray-600 flex justify-center items-center">

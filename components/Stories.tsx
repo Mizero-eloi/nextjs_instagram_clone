@@ -11,14 +11,14 @@ const Stories = () => {
   }, [fetchAllUsers]);
 
   return (
-    <div className="w-[95%] md:w-[60%] md:ml-20 m-auto  mt-2 bg-white flex gap-7 p-4 overflow-x-scroll no-scrollbar rounded-lg">
+    <div className="w-[95%] md:w-[60%] md:ml-20 m-auto  mt-2 bg-white flex gap-7 p-4 overflow-x-scroll no-scrollbar rounded-lg border-2 border-gray-300">
       {allUsers.map((user: IUser, index) => (
         <div
           className="cursor-pointer transform transition hover:-rotate-6"
           key={index}
         >
           <div className="bg-gradient-to-r from-yellow-200 to-pink-600 w-20 h-20 p-1 rounded-full ">
-            <div className="bg-white w-full h-full rounded-full p-1 block">
+            <div className="bg-white w-full h-full rounded-full flex justify-center items-center">
               <Image
                 src={user.image}
                 alt="post"
@@ -28,7 +28,7 @@ const Stories = () => {
               />
             </div>
           </div>
-          <p className="text-xs">{user.userName}</p>
+          <p className="text-xs relative left-2">{user.userName}</p>
         </div>
       ))}
       {allUsers.map((user: IUser, index) => (

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Userprofile from "./Userprofile";
 import useAuthStore from "./../store/authStore";
 import Image from "next/image";
+import { footer } from "../utils/footer";
 
 const SuggestedAccounts = () => {
   const { userProfile, allUsers, fetchAllUsers } = useAuthStore();
@@ -46,6 +47,13 @@ const SuggestedAccounts = () => {
           </button>
         </div>
       ))}
+
+      <div className="text-gray-300 text-sm mt-4">
+        {footer.map((f) => (
+          <span key={f}>{f + " . "}</span>
+        ))}
+      <p className="mt-5 text-xs">INSTAGRAM CLONE MADE WITH ❣️ BY MIZERO ELOI</p>
+      </div>
     </div>
   );
 };
