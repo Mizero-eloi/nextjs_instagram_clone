@@ -4,9 +4,11 @@ import { Iimage, IUser } from "./../types.d";
 import { FaRegHeart, FaRegComment } from "react-icons/fa";
 import { BsBookmark } from "react-icons/bs";
 import { GrEmoji } from "react-icons/gr";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 import useAuthStore from "./../store/authStore";
 import axios from "axios";
 import { BASE_URL } from "../utils";
+import Link from "next/link";
 
 interface IProps {
   postDetails: Iimage;
@@ -17,7 +19,7 @@ const PostCard = ({ postDetails }: IProps) => {
   const [comment, setComment] = useState("");
   const [isPostingComment, setIsPostingComment] = useState(false);
 
-  const { userProfile } = useAuthStore();
+  const { userProfile }: any = useAuthStore();
 
   const handleComment = async (e: any) => {
     e.preventDefault();
@@ -39,22 +41,32 @@ const PostCard = ({ postDetails }: IProps) => {
   console.log(post.postedBy.image);
   return (
     <div className="border-2 border-gray-200 rounded-lg pt-2 w-[95%] md:w-[60%] md:ml-20 m-auto text-gray-600   bg-white">
-      <div className="flex gap-4 bg-white pb-2 pl-3">
-        <div className="w-12 h-12 rounded-full bg-red-300">
-          <Image
-            src={post.postedBy.image}
-            alt="post"
-            className="object-cover rounded-full"
-            height={48}
-            width={48}
-          />
+      <div className="flex justify-between items-center bg-white pb-3 pl-3">
+        <div className="flex gap-4">
+          <Link
+            href={`/profile/${post.postedBy._id}`}
+            className="w-12 h-12 rounded-full bg-red-300 cursor-pointer"
+          >
+            <Image
+              src={post.postedBy.image}
+              alt="post"
+              className=" rounded-full"
+              height={48}
+              width={48}
+            />
+          </Link>
+          <Link href={`/profile/${post.postedBy._id}`}>
+            <div className="flex flex-col justify-center cursor-pointer">
+              <h2 className="text-lg font-medium capitalize">
+                {post.postedBy.userName}
+              </h2>
+              <p className="text-xs">{post.postedBy.userName}</p>
+            </div>
+          </Link>
         </div>
-        <div className="flex flex-col justify-center">
-          <h2 className="text-lg font-medium capitalize">
-            {post.postedBy.userName}
-          </h2>
-          <p className="text-xs">{post.postedBy.userName}</p>
-        </div>
+        <p className="text-xl mr-3 ">
+          <BiDotsHorizontalRounded />
+        </p>
       </div>
 
       {/* image container */}
@@ -62,7 +74,7 @@ const PostCard = ({ postDetails }: IProps) => {
         src={post.image.asset.url}
         alt="post"
         className=""
-        height={1000}
+        height={700}
         width={700}
       />
 

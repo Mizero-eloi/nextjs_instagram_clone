@@ -4,19 +4,19 @@ import React from "react";
 
 const Userprofile = ({ user }: any) => {
   return (
-    <div className="flex gap-2">
-      <div className="w-12 h-12 rounded-full bg-red-300">
+    <div className="flex gap-5 items-center">
+      <div className="w-16 h-16 rounded-full bg-red-300">
         <Image
           src={user.image}
           alt="post"
           className="object-cover rounded-full"
-          height={48}
-          width={48}
+          height={65}
+          width={65}
         />
       </div>
 
       <div>
-        <p className="font-medium">{user.userName}</p>
+        <p className="font-medium text-black">{user.userName}</p>
         <p className="text-xs">{user.userName}</p>
       </div>
     </div>
