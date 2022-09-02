@@ -10,6 +10,7 @@ import { RiMessengerLine } from "react-icons/ri";
 import { CgAddR } from "react-icons/cg";
 import { BiHeart } from "react-icons/bi";
 import { MdOutlineExplore } from "react-icons/md";
+import { IoIosSearch } from "react-icons/io";
 
 import Logo from "../utils/logo.png";
 import AddPost from "./AddPost";
@@ -47,7 +48,19 @@ const Navbar = () => {
           </Link>
 
           {/* search */}
-          <div className="hidden md:block">search</div>
+          <form className="hidden md:block md:w-[27%]">
+            <div className="flex bg-gray-200 pl-2 rounded-lg items-center text-gray-400">
+              <button className="text-xl">
+                <IoIosSearch />
+              </button>
+
+              <input
+                type="text"
+                placeholder="Search"
+                className="outline-none bg-gray-200 p-2 rounded-lg"
+              />
+            </div>
+          </form>
 
           {/* icons */}
           <div className="flex gap-7">
