@@ -16,10 +16,12 @@ const Home = ({ photos }: IProps) => {
     <div className="md:w-[65%] md:m-auto flex flex-col gap-6">
       <Stories />
       {/* feed */}
-      <div className="md:flex md:flex-col md:gap-6 relative">
+      <div className="flex flex-col gap-6 relative">
         {/* posts */}
         {photos.length ? (
-          photos.map((image) => <PostCard post={image} key={image._id} />)
+          photos.map((image) => (
+            <PostCard postDetails={image} key={image._id} />
+          ))
         ) : (
           <NoResults text="No posts yet" />
         )}

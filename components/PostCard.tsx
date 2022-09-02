@@ -1,17 +1,44 @@
 import Image from "next/image";
-import React from "react";
-import { Iimage } from "./../types.d";
+import React, { useEffect, useState } from "react";
+import { Iimage, IUser } from "./../types.d";
 import { FaRegHeart, FaRegComment } from "react-icons/fa";
 import { BsBookmark } from "react-icons/bs";
+import { GrEmoji } from "react-icons/gr";
+import useAuthStore from "./../store/authStore";
+import axios from "axios";
+import { BASE_URL } from "../utils";
 
 interface IProps {
-  post: Iimage;
+  postDetails: Iimage;
 }
 
-const PostCard = ({ post }: IProps) => {
+const PostCard = ({ postDetails }: IProps) => {
+  const [post, setPost] = useState(postDetails);
+  const [comment, setComment] = useState("");
+  const [isPostingComment, setIsPostingComment] = useState(false);
+
+  const { userProfile } = useAuthStore();
+
+  const handleComment = async (e: any) => {
+    e.preventDefault();
+
+    if (userProfile && comment) {
+      setIsPostingComment(true);
+
+      const { data } = await axios.put(`${BASE_URL}/api/post/${post._id}`, {
+        userId: userProfile._id,
+        comment,
+      });
+
+      setPost({ ...post, comments: data.comments });
+      setComment("");
+      setIsPostingComment(false);
+    }
+  };
+
   console.log(post.postedBy.image);
   return (
-    <div className="border-2 border-gray-200 rounded-lg pt-2 w-[95%] md:w-[60%] md:ml-20 m-auto   bg-white">
+    <div className="border-2 border-gray-200 rounded-lg pt-2 w-[95%] md:w-[60%] md:ml-20 m-auto text-gray-600   bg-white">
       <div className="flex gap-4 bg-white pb-2 pl-3">
         <div className="w-12 h-12 rounded-full bg-red-300">
           <Image
@@ -41,9 +68,8 @@ const PostCard = ({ post }: IProps) => {
 
       <div className="flex justify-between p-3 text-2xl">
         <div className="flex gap-4">
-          <button>
-            <FaRegHeart />
-          </button>
+          <FaRegHeart />
+
           <button>
             <FaRegComment />
           </button>
@@ -57,13 +83,36 @@ const PostCard = ({ post }: IProps) => {
       <div className="p-3 flex flex-col gap-3">
         <p className="text-lg">{post.caption}</p>
         {post.comments?.length && (
-          <div className="flex gap-5">
+          <div>
             <h2>View all {post.comments.length} comments</h2>
-            <p>{post.comments[0].postedBy._ref}</p>
-            <p>{post.comments[0].comment}</p>
+            <div className="flex gap-2 ">
+              <p className="font-semibold">
+                {post.comments[0].postedBy.userName}
+              </p>
+              <p>{post.comments[0].comment}</p>
+            </div>
           </div>
         )}
       </div>
+
+      {/* form input */}
+      <form onSubmit={handleComment} className=" border-t border-gray-200">
+        <div className="flex gap-5">
+          <button className="text-2xl p-2 text-gray-400">
+            <GrEmoji />
+          </button>
+          <input
+            type="text"
+            className=" w-4/5 outline-none text-gray-400"
+            placeholder="Comment..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <button className="p-2 text-gray-400" onClick={handleComment}>
+            {isPostingComment ? "Posting" : "Post"}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

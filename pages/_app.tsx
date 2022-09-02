@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       clientId={`${process.env.NEXT_PUBLIC_GOOGLE_API_TOKEN}`}
     >
       <Navbar />
-      <div>
+      <div className="text-gray-500">
         <Component {...pageProps} />
       </div>
     </GoogleOAuthProvider>
