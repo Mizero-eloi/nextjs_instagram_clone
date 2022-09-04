@@ -11,6 +11,7 @@ import NoResults from "./../components/NoResults";
 import PostDetail from "../components/PostDetail";
 import { useState } from "react";
 import { useEffect } from "react";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface IProps {
   photos: Iimage[];
@@ -47,8 +48,14 @@ const Home = ({ photos }: IProps) => {
       <Modal
         isOpen={!!router.query.id}
         onRequestClose={() => router.push("/")}
-        className="bg-[rgba(0,0,0,0.5)] h-[100vh] pt-40"
+        className="bg-[rgba(0,0,0,0.7)] h-[100vh] pt-32 z-50"
       >
+        <button
+          className="absolute right-5 text-2xl text-white top-24"
+          onClick={() => router.back()}
+        >
+          <AiOutlineCloseCircle />
+        </button>
         <PostDetail post={activePost} />
       </Modal>
     </div>

@@ -9,7 +9,7 @@ interface IProps {
 
 const Post = ({ post }: IProps) => {
   return (
-    <div className="w-5/6 m-auto">
+    <div className="w-5/6 m-auto pt-4">
       <PostDetail post={post} />
     </div>
   );
