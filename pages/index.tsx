@@ -56,7 +56,7 @@ const Home = ({ photos }: IProps) => {
         >
           <AiOutlineCloseCircle />
         </button>
-        <PostDetail post={activePost} />
+        <PostDetail postDetail={activePost} />
       </Modal>
     </div>
   );

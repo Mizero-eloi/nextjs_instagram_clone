@@ -1,18 +1,42 @@
+import axios from "axios";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { BsBookmark } from "react-icons/bs";
 import { FaRegComment, FaRegHeart } from "react-icons/fa";
 import { GrEmoji } from "react-icons/gr";
 
 import { Iimage } from "../types";
+import { BASE_URL } from "../utils";
+import useAuthStore from "./../store/authStore";
 
 interface IProps {
-  post: Iimage;
+  postDetail: Iimage;
 }
 
-const PostDetail = ({ post }: IProps) => {
-  console.log("post", post);
+const PostDetail = ({ postDetail }: IProps) => {
+  const [post, setPost] = useState(postDetail);
+  const { userProfile }: any = useAuthStore();
+  const [comment, setComment] = useState("");
+  const [isPostingComment, setIsPostingComment] = useState(false);
+
+  const handleComment = async (e: any) => {
+    e.preventDefault();
+
+    if (userProfile && comment) {
+      setIsPostingComment(true);
+
+      const { data } = await axios.put(`${BASE_URL}/api/post/${post._id}`, {
+        userId: userProfile._id,
+        comment,
+      });
+
+      setPost({ ...post, comments: data.comments });
+      setComment("");
+      setIsPostingComment(false);
+    }
+  };
+
   return (
     <div className="w-4/5 h-[500px] bg-white m-auto  flex gap-0">
       {/* image */}
@@ -89,17 +113,24 @@ const PostDetail = ({ post }: IProps) => {
           </p>
         </div>
         {/* form input */}
-        <form className="border-t border-gray-200 mt-4">
+        <form
+          onSubmit={handleComment}
+          className="border-t border-gray-200 mt-4"
+        >
           <div className="flex gap-5">
             <button className="text-2xl p-2 text-gray-400">
               <GrEmoji />
             </button>
             <input
               type="text"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               className=" w-4/5 outline-none text-gray-400"
               placeholder="Comment..."
             />
-            <button className="p-2 text-gray-400">Post</button>
+            <button className="p-2 text-gray-400" onClick={handleComment}>
+              {isPostingComment ? "Posting" : "Post"}
+            </button>
           </div>
         </form>
       </div>
