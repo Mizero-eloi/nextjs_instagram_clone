@@ -8,7 +8,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    console.log("I've been called");
     const data = await client.fetch(allUsersQuery());
 
     if (data) {

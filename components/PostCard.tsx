@@ -2,7 +2,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Iimage, IUser } from "./../types.d";
 import { FaRegHeart, FaRegComment } from "react-icons/fa";
-import { BsBookmark } from "react-icons/bs";
+import { BsBookmark, BsHeart, BsHeartFill } from "react-icons/bs";
 import { GrEmoji } from "react-icons/gr";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import useAuthStore from "./../store/authStore";
@@ -18,8 +18,37 @@ const PostCard = ({ postDetails }: IProps) => {
   const [post, setPost] = useState(postDetails);
   const [comment, setComment] = useState("");
   const [isPostingComment, setIsPostingComment] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const filterLikes = post.likes?.filter(
+    (item) => item.postedBy?._id === userProfile?._id
+  );
+
+  useEffect(() => {
+    if (filterLikes?.length > 0) {
+      setIsLiked(true);
+    } else {
+      setIsLiked(false);
+    }
+  }, [filterLikes]);
+
+  console.log("post", post);
 
   const { userProfile }: any = useAuthStore();
+
+  const handleLike = async (isLiked: boolean) => {
+    setIsLiked(isLiked);
+
+    if (userProfile) {
+      const { data } = await axios.put(`${BASE_URL}/api/like`, {
+        userId: userProfile._id,
+        postId: post._id,
+        like: isLiked,
+      });
+
+      setPost({ ...post, likes: data.likes });
+    }
+  };
 
   const handleComment = async (e: any) => {
     e.preventDefault();
@@ -38,7 +67,6 @@ const PostCard = ({ postDetails }: IProps) => {
     }
   };
 
-  console.log(post.postedBy.image);
   return (
     <div className="border border-gray-300 rounded-lg pt-2 w-[95%] md:w-[60%] md:ml-20 m-auto text-gray-600   bg-white">
       <div className="flex justify-between items-center bg-white pb-3 pl-3">
@@ -80,8 +108,16 @@ const PostCard = ({ postDetails }: IProps) => {
 
       <div className="flex justify-between p-3 text-2xl">
         <div className="flex gap-4">
-          <FaRegHeart />
-
+          <button>
+            {isLiked ? (
+              <BsHeartFill
+                onClick={() => handleLike(false)}
+                className="text-[#fb3958]"
+              />
+            ) : (
+              <BsHeart onClick={() => handleLike(true)} />
+            )}
+          </button>
           <button>
             <FaRegComment />
           </button>
@@ -91,6 +127,9 @@ const PostCard = ({ postDetails }: IProps) => {
           <BsBookmark />
         </button>
       </div>
+      <p className="pl-3 font-semibold">
+        {post.likes ? post.likes.length : 0} likes
+      </p>
 
       <div className="p-3 flex flex-col gap-3">
         <p className="text-lg">{post.caption}</p>

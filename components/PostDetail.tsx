@@ -1,8 +1,8 @@
 import axios from "axios";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import { BsBookmark } from "react-icons/bs";
+import { BsBookmark, BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaRegComment, FaRegHeart } from "react-icons/fa";
 import { GrEmoji } from "react-icons/gr";
 
@@ -19,6 +19,26 @@ const PostDetail = ({ postDetail }: IProps) => {
   const { userProfile }: any = useAuthStore();
   const [comment, setComment] = useState("");
   const [isPostingComment, setIsPostingComment] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const filterLikes = post.likes?.filter(
+    (item) => item?._ref === userProfile?._id
+  );
+
+  const handleLike = async (isLiked: boolean) => {
+    setHasLiked(isLiked);
+
+    if (userProfile) {
+      const { data } = await axios.put(`${BASE_URL}/api/like`, {
+        userId: userProfile._id,
+        postId: post._id,
+        like: isLiked,
+      });
+
+      setPost({ ...post, likes: data.likes });
+    }
+  };
 
   const handleComment = async (e: any) => {
     e.preventDefault();
@@ -36,6 +56,16 @@ const PostDetail = ({ postDetail }: IProps) => {
       setIsPostingComment(false);
     }
   };
+
+  useEffect(() => {
+    if (filterLikes?.length > 0) {
+      setHasLiked(true);
+    } else {
+      setHasLiked(false);
+    }
+  }, [filterLikes]);
+
+  console.log("isLiked below useEffect", filterLikes?.length);
 
   return (
     <div className="w-4/5 h-[500px] bg-white m-auto  flex gap-0">
@@ -98,7 +128,14 @@ const PostDetail = ({ postDetail }: IProps) => {
           <div className="flex justify-between text-xl">
             <div className="flex gap-4">
               <button>
-                <FaRegHeart />
+                {hasLiked ? (
+                  <BsHeartFill
+                    onClick={() => handleLike(false)}
+                    className="text-[#fb3958]"
+                  />
+                ) : (
+                  <BsHeart onClick={() => handleLike(true)} />
+                )}
               </button>
               <button>
                 <FaRegComment />
