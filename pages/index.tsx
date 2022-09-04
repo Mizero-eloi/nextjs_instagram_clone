@@ -1,17 +1,33 @@
 import axios from "axios";
-import type { NextPage } from "next";
+import Modal from "react-modal";
+import { useRouter } from "next/router";
+
 import Stories from "../components/Stories";
 import { Iimage } from "./../types.d";
 import Navbar from "./../components/Navbar";
 import PostCard from "./../components/PostCard";
 import SuggestedAccounts from "../components/SuggestedAccounts";
 import NoResults from "./../components/NoResults";
+import PostDetail from "../components/PostDetail";
+import { useState } from "react";
+import { useEffect } from "react";
 
 interface IProps {
   photos: Iimage[];
 }
 
 const Home = ({ photos }: IProps) => {
+  const router = useRouter();
+  const [activePost, setActivePost] = useState<Iimage>({});
+
+  console.log({ activePost });
+
+  useEffect(() => {
+    if (router.query.id) {
+      setActivePost(photos.filter((p) => p._id === router.query.id)[0]);
+    }
+  }, [photos, router.query.id, router.query.if]);
+
   return (
     <div className="md:w-[65%] md:m-auto flex flex-col gap-6">
       <Stories />
@@ -28,6 +44,13 @@ const Home = ({ photos }: IProps) => {
         {/* suggested accounts */}
         <SuggestedAccounts />
       </div>
+      <Modal
+        isOpen={!!router.query.id}
+        onRequestClose={() => router.push("/")}
+        className="bg-[rgba(0,0,0,0.5)] h-[100vh] pt-40"
+      >
+        <PostDetail post={activePost} />
+      </Modal>
     </div>
   );
 };

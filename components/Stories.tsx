@@ -11,7 +11,7 @@ const Stories = () => {
   }, [fetchAllUsers]);
 
   return (
-    <div className="w-[95%] md:w-[60%] md:ml-20 m-auto  mt-2 bg-white flex gap-7 p-4 overflow-x-scroll no-scrollbar rounded-lg border-2 border-gray-300">
+    <div className="w-[95%] md:w-[60%] md:ml-20 m-auto  mt-2 bg-white flex gap-7 p-4 overflow-x-scroll no-scrollbar rounded-lg border border-gray-300">
       {allUsers.map((user: IUser, index) => (
         <div
           className="cursor-pointer transform transition hover:-rotate-6"

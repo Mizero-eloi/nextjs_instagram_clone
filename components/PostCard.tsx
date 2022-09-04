@@ -40,7 +40,7 @@ const PostCard = ({ postDetails }: IProps) => {
 
   console.log(post.postedBy.image);
   return (
-    <div className="border-2 border-gray-300 rounded-lg pt-2 w-[95%] md:w-[60%] md:ml-20 m-auto text-gray-600   bg-white">
+    <div className="border border-gray-300 rounded-lg pt-2 w-[95%] md:w-[60%] md:ml-20 m-auto text-gray-600   bg-white">
       <div className="flex justify-between items-center bg-white pb-3 pl-3">
         <div className="flex gap-4">
           <Link
@@ -96,7 +96,11 @@ const PostCard = ({ postDetails }: IProps) => {
         <p className="text-lg">{post.caption}</p>
         {post.comments?.length && (
           <div>
-            <h2>View all {post.comments.length} comments</h2>
+            <Link href={`/?id=${post._id}`} as={`/post/${post._id}`}>
+              <h2 className="cursor-pointer">
+                View all {post.comments.length} comments
+              </h2>
+            </Link>
             <div className="flex gap-2 ">
               <p className="font-semibold">
                 {post.comments[0].postedBy.userName}

@@ -22,7 +22,7 @@ const SuggestedAccounts = () => {
 
       {/* suggestions */}
 
-      <h2 className="text-gray-500 font-semibold">Suggestions for you</h2>
+      <h2 className="text-gray-400 font-bold">Suggestions for you</h2>
 
       {allUsers.slice(0, 5).map((user, index) => (
         <div key={index} className="flex justify-between">
@@ -38,7 +38,7 @@ const SuggestedAccounts = () => {
             </div>
 
             <div>
-              <p className="font-semibold">{user.userName}</p>
+              <p className="font-semibold text-black">{user.userName}</p>
               <p className="text-xs text-gray-500">New to Instagram</p>
             </div>
           </div>
@@ -52,7 +52,9 @@ const SuggestedAccounts = () => {
         {footer.map((f) => (
           <span key={f}>{f + " . "}</span>
         ))}
-      <p className="mt-5 text-xs">INSTAGRAM CLONE MADE WITH ❣️ BY MIZERO ELOI</p>
+        <p className="mt-5 text-xs">
+          INSTAGRAM CLONE MADE WITH ❣️ BY MIZERO ELOI
+        </p>
       </div>
     </div>
   );
