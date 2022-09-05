@@ -6,18 +6,24 @@ import { createOrGetUser } from "../utils";
 import { navbarIcons } from "../utils/constants";
 import useAuthStore from "../store/authStore";
 import { FiHome } from "react-icons/fi";
-import { RiMessengerLine } from "react-icons/ri";
+import { RiMessengerFill, RiMessengerLine } from "react-icons/ri";
 import { CgAddR } from "react-icons/cg";
 import { BiHeart } from "react-icons/bi";
-import { MdOutlineExplore } from "react-icons/md";
+import { MdExplore, MdExploreOff, MdOutlineExplore } from "react-icons/md";
 import { IoIosSearch } from "react-icons/io";
 
 import Logo from "../utils/logo.png";
 import AddPost from "./AddPost";
+import { AiFillHome, AiOutlineHome } from "react-icons/ai";
+import { useRouter } from "next/router";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 
 const Navbar = () => {
   const { userProfile, addUser } = useAuthStore();
   const [viewModal, setViewModal] = useState(false);
+  const router = useRouter();
+
+  const { page } = router.query;
 
   function closeModal() {
     setViewModal(false);
@@ -28,6 +34,25 @@ const Navbar = () => {
     setViewModal(true);
     document.body.style.overflow = "hidden";
   }
+
+  const navigationRoutes = {
+    home: {
+      normalIcon: <AiOutlineHome />,
+      activeLink: <AiFillHome />,
+    },
+    messenger: {
+      normalIcon: <RiMessengerLine />,
+      activeLink: <RiMessengerFill />,
+    },
+    explore: {
+      normalIcon: <MdOutlineExplore />,
+      activeLink: <MdExplore />,
+    },
+    notifications: {
+      normalIcon: <BsHeart />,
+      activeLink: <BsHeartFill />,
+    },
+  };
 
   return (
     <>
@@ -64,14 +89,22 @@ const Navbar = () => {
 
           {/* icons */}
           <div className="flex gap-7">
-            <Link href={`/`}>
+            <Link href={{ pathname: "/", query: { page: "home" } }} as="/">
               <button className="text-2xl hover:text-gray-600 flex justify-center items-center">
-                <FiHome />
+                {page === "home" ? <AiFillHome /> : <AiOutlineHome />}
               </button>
             </Link>
-            <Link href={`/messenger`}>
+
+            <Link
+              href={{ pathname: "/messenger", query: { page: "messenger" } }}
+              as="/messenger"
+            >
               <button className="text-2xl hover:text-gray-600 flex justify-center items-center">
-                <RiMessengerLine />
+                {page === "messenger" ? (
+                  <RiMessengerFill />
+                ) : (
+                  <RiMessengerLine />
+                )}
               </button>
             </Link>
 
@@ -82,15 +115,23 @@ const Navbar = () => {
               <CgAddR />
             </button>
 
-            <Link href={`/explore`}>
+            <Link
+              href={{ pathname: "/explore", query: { page: "explore" } }}
+              as="/explore"
+            >
               <button className="text-2xl hover:text-gray-600 flex justify-center items-center">
-                <MdOutlineExplore />
+                {page === "explore" ? <MdExplore /> : <MdOutlineExplore />}
               </button>
             </Link>
 
-            <Link href={`/notifications`}>
+            <Link
+              href={{
+                pathname: "/notifications",
+                query: { page: "notifications" },
+              }}
+            >
               <button className="text-2xl hover:text-gray-600 flex justify-center items-center">
-                <BiHeart />
+                {page === "notifications" ? <BsHeartFill /> : <BsHeart />}
               </button>
             </Link>
 
