@@ -72,7 +72,9 @@ const PostCard = ({ postDetails }: IProps) => {
       <div className="flex justify-between items-center bg-white pb-3 pl-3">
         <div className="flex gap-4">
           <Link
-            href={`/profile/${post.postedBy._id}`}
+            href={{
+              pathname: `/profile/${post.postedBy._id}`,
+            }}
             className="w-12 h-12 rounded-full bg-red-300 cursor-pointer"
           >
             <Image

@@ -1,9 +1,14 @@
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Modal from "react-modal";
+
 import { Iimage, IUser } from "../../types";
 import { BASE_URL } from "../../utils";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import PostDetail from "./../../components/PostDetail";
+import { useRouter } from "next/router";
 
 interface IProps {
   data: {
@@ -14,15 +19,27 @@ interface IProps {
 
 const Profile = ({ data }: IProps) => {
   const { user, userPosts } = data;
+  const router = useRouter();
 
-  console.log({ data });
+  const [activePost, setActivePost] = useState<Iimage>({});
+
+  console.log({ activePost });
+
+  useEffect(() => {
+    if (router.query.postId) {
+      setActivePost(userPosts.filter((p) => p._id === router.query.postId)[0]);
+    }
+  }, [router.query.postId, userPosts]);
+  console.log({ userPosts });
+  console.log("router.query.id", router.query.id);
+
   return (
     <div className="flex flex-col gap-6 w-3/4 md:w-1/2 m-auto mt-3 text-black">
       {/* profile information */}
       <div className="w-full  p-4 flex gap-20 items-center">
         {/* profile */}
         <Image
-          src={user.image}
+          src={user?.image}
           alt="post"
           className=" rounded-full"
           height={200}
@@ -32,7 +49,7 @@ const Profile = ({ data }: IProps) => {
         <div className="w-3/4 h-[400px]  flex flex-col gap-10 relative top-5">
           {/* username + follow */}
           <div className="flex gap-10">
-            <p className="text-3xl font-light">{user.userName}</p>
+            <p className="text-3xl font-light">{user?.userName}</p>
             <button className="bg-blue-400 text-white px-4 py-2 rounded">
               Follow
             </button>
@@ -61,7 +78,11 @@ const Profile = ({ data }: IProps) => {
       </div>
       <div className="w-full flex gap-6 flew flex-wrap h-20 border-t border-gray-500 pt-3">
         {userPosts.map((p) => (
-          <Link href={`/detail/${p._id}`} key={p._id}>
+          <Link
+            href={`/profile/${router.query.id}?postId=${p._id}`}
+            // as={`/post/${p._id}`}
+            key={p._id}
+          >
             <Image
               src={p.image.asset.url}
               alt={p.caption}
@@ -72,6 +93,19 @@ const Profile = ({ data }: IProps) => {
           </Link>
         ))}
       </div>
+      <Modal
+        isOpen={!!router.query.postId}
+        onRequestClose={() => router.push(`/profile/${router.query.id}`)}
+        className="bg-[rgba(0,0,0,0.7)] h-[100vh] pt-32 z-50"
+      >
+        <button
+          className="absolute right-5 text-2xl text-white top-24"
+          onClick={() => router.push(`/profile/${router.query.id}`)}
+        >
+          <AiOutlineCloseCircle />
+        </button>
+        <PostDetail postDetail={activePost} />
+      </Modal>
     </div>
   );
 };
