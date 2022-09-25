@@ -72,7 +72,7 @@ const Navbar = () => {
             </div>
           </Link>
 
-          {/* search */}
+          {/* search form */}
           <form className="hidden md:block md:w-[27%]">
             <div className="flex bg-gray-200 pl-2 rounded-lg items-center text-gray-400">
               <button className="text-xl">
