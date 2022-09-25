@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BASE_URL } from "../utils";
 import { client } from "../utils/client";
 import useAuthStore from "./../store/authStore";
@@ -67,12 +68,12 @@ function AddPost({ toggleModal, title }: any) {
   };
 
   return (
-    <div className="w-full  h-full bg-[rgba(0,0,0,0.5)] absolute left-0 z-50">
+    <div className="w-screen  h-screen bg-[rgba(0,0,0,0.5)] absolute left-0 z-[80]">
       <h2
-        className="text-white relative float-right mr-5 mt-4 cursor-pointer"
+        className="text-white text-2xl relative float-right mr-5 mt-4 cursor-pointer"
         onClick={toggleModal}
       >
-        close
+        <AiOutlineCloseCircle />
       </h2>
       <div className="w-10/12 md:w-2/5 bg-white m-auto p-[31px] mt-[68px] rounded-sm">
         <h2 className=" m-auto font-medium text-2xl text-center">{title}</h2>

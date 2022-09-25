@@ -91,7 +91,11 @@ const Navbar = () => {
           <div className="flex gap-7">
             <Link href={{ pathname: "/", query: { page: "home" } }} as="/">
               <button className="text-2xl hover:text-gray-600 flex justify-center items-center">
-                {page === "home" ? <AiFillHome /> : <AiOutlineHome />}
+                {page === "home" || router.route === "/" ? (
+                  <AiFillHome />
+                ) : (
+                  <AiOutlineHome />
+                )}
               </button>
             </Link>
 
@@ -142,7 +146,7 @@ const Navbar = () => {
                     width={40}
                     height={40}
                     className="rounded-full object-cover cursor-pointer"
-                    src={userProfile.image}
+                    src={userProfile?.image}
                     alt="profile picture"
                   />
                 </>
